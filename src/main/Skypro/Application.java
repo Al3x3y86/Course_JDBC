@@ -1,44 +1,37 @@
 import dao.EmployeeDAO;
 import dao.EmployeeDAOImpl;
-import model.City;
+
 import model.Employee;
 
 import java.sql.*;
 import java.util.List;
 
+
 public class Application {
 
     public static void main(String[] args) throws SQLException {
 
-        // Создаем переменные с данными для подключения к базе
-        final String user = "postgres";
-        final String pass = "1207";
-        final String url = "jdbc:postgresql://localhost:5432/skypro";
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
-        try (Connection connection = DriverManager.getConnection(url,user,pass)){
+        // Создаем параметры объекта
+        Employee Taras = new Employee("Taras", "Tarasov", "Male", 60,3);
+         // Создаем объект
+        employeeDAO.create(Taras);
 
-            EmployeeDAO employeeDAO = new EmployeeDAOImpl(connection);
+        // Получаем объект по id
+        System.out.println(employeeDAO.getById(8));
 
-            // 5. Удаление конкретного объекта Employee из базы по id
-            employeeDAO.deleteById(7);
-
-            // 4. Изменение конкретного объекта Employee в базе по id
-            employeeDAO.updateById(7,"Roman", "Romanov", "Male", 57, 3);
-
-            // 3. Получение списка всех объектов Employee из базы
-            List<Employee> employees = employeeDAO.getAllEmployee();
-            for (Employee employee : employees) {
-                System.out.println(employee);
-            }
-
-              // 2. Получение конкретного объекта Employee по id
-            System.out.println(employeeDAO.getById(7));
-
-              // 1. Создание(добавление) сущности Employee в таблицу
-            Employee Pushkin = new Employee(1,"Aleksandr", "Pushkin","Male", 55,1);
-            City Surgut = new City(4,"Surgut");
-            employeeDAO.create(Pushkin);
-
+        // Получаем полный список объектов
+        List<Employee> list = employeeDAO.getAllEmployee();
+        for (Employee employee : list) {
+            System.out.println(employee);
         }
+
+        // Создаем параметры изменения
+        Employee Taras2 = new Employee(8,"Taras", "Tarasov", "Male", 62,3);
+        // Изменяем объект
+        employeeDAO.updateByID(Taras2);
+        // Удаляем объект
+        employeeDAO.deleteById(Taras2);
     }
 }
