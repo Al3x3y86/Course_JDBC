@@ -9,12 +9,11 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-
     @Override
     public void create (Employee employee) {
         // В ресурсах блока try создаем объект сессии с помощью нашего конфиг-файла
         // И открываем сессию
-        try(Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();) {
+        try(Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             // Создаем транзакцию и начинаем ее
             Transaction transaction = session.beginTransaction();
             // вызываем на объекте сессии метод save
@@ -43,9 +42,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return users;
     }
 
-
-    @Override
-    public void updateByID(Employee employee) {
+    public void updateEmployee(Employee employee) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()){
             Transaction transaction = session.beginTransaction();
             // Для обновления данных нужно передать в конструктор
@@ -56,7 +53,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void deleteById(Employee employee) {
+    public void deleteEmployee(Employee employee) {
         try(Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             // Для удаления объекта из таблицы нужно передать его в метод delete
